@@ -39,11 +39,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // @see: http://stackoverflow.com/questions/4612422
         // @see: http://stackoverflow.com/questions/28829659
         window.level = Int(CGWindowLevelForKey(CGWindowLevelKey.MaximumWindowLevelKey))
-        let screenRect: NSRect = NSScreen.mainScreen()!.frame
+        let screens = NSScreen.screens()!
+        var width: CGFloat = 0.0
+        var height: CGFloat = 0.0
+        for i in 0...screens.count - 1 {
+            width += screens[i].frame.width
+            height += screens[i].frame.height
+        }
         window.backgroundColor = NSColor(red: 0, green: 0, blue: 0, alpha: 0)
         window.styleMask = NSBorderlessWindowMask
         window.ignoresMouseEvents = true
-        window.setFrame(NSMakeRect(0, 0, screenRect.width, screenRect.height), display: true)
+        window.setFrame(NSMakeRect(0, 0, width, height), display: true)
         window.contentView = webview
         webview.drawsBackground = false
         let url = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("sakura", ofType: "html")!)
